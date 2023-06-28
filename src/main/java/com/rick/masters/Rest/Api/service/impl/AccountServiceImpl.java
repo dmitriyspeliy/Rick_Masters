@@ -89,8 +89,7 @@ public class AccountServiceImpl implements AccountService {
      *
      * @param driverId идентификатор водителя
      */
-    @Override
-    public AccountRecord writeOff(Long driverId) {
+    public AccountRecord showAccount(Long driverId) {
 
         Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new ElemNotFound("Нет водителя с айди: " + driverId));

@@ -33,6 +33,6 @@ public interface AccountService {
      *
      * @param driverId идентификатор водителя
      */
-    AccountRecord writeOff(Long driverId);
+    AccountRecord showAccount(Long driverId);
 
 }
