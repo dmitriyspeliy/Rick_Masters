@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Set;
 
@@ -20,9 +21,9 @@ import java.util.Set;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class VehicleRecord {
+public class VehicleRecord extends AbstractRecord implements Serializable {
 
     @NotNull(message = "Не может быть null")
     @Pattern(regexp = "^[A-Z0-9]{17}", message = "Идентификационный номер транспортного средства")

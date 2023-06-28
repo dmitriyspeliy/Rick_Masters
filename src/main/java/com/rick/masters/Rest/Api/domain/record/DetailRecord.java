@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Dto {@link Detail}
@@ -18,9 +19,9 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DetailRecord {
+public class DetailRecord extends AbstractRecord implements Serializable {
 
     @NotNull(message = "Не может быть null")
     @Size(min = 10, max = 10, message = "Серийный номер, например 2LDW90PWQV")

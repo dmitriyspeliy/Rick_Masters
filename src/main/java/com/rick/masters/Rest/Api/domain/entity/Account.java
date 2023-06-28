@@ -1,6 +1,7 @@
 package com.rick.masters.Rest.Api.domain.entity;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
 public class Account extends AbstractEntity {
 
     @Column(name = "red_value")
@@ -26,8 +28,9 @@ public class Account extends AbstractEntity {
     @Column(name = "blue_value")
     Long blueValue;
 
-    @OneToOne(mappedBy = "account",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
     Driver driver;
+
 
 }

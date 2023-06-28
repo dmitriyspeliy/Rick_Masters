@@ -1,6 +1,7 @@
 package com.rick.masters.Rest.Api.domain.entity;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @MappedSuperclass
 @Getter
 @Setter
+@EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AbstractEntity {
 

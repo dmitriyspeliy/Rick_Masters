@@ -1,6 +1,7 @@
 package com.rick.masters.Rest.Api.domain.entity;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Getter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
 public class Vehicle extends AbstractEntity {
 
     @Column(name = "VIN")

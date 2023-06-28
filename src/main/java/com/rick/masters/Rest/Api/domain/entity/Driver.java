@@ -2,6 +2,7 @@ package com.rick.masters.Rest.Api.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
 public class Driver extends AbstractEntity {
 
     @Column(name = "name")
