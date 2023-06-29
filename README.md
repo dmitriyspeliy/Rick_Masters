@@ -31,7 +31,8 @@ REST-сервис. Тестовое задание.
 
 ## Структура данных:
 
-![account](https://github.com/dmitriyspeliy/Rick_Masters/assets/102532626/5da29179-4329-45cc-ba76-fe2ca95d061c)
+![account](https://github.com/dmitriyspeliy/Rick_Masters/assets/102532626/07cfcd8e-1410-4a0b-9f08-8190921a1946)
+
 
 
 ## Автор проекта
