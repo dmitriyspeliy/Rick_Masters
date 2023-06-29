@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Контроллер для работы с транспортом
@@ -32,6 +32,7 @@ import java.util.Collection;
 @Validated
 @Tag(name = "Транспорт")
 public class VehicleController {
+
     private final VehicleService vehicleService;
 
     @Operation(summary = "Сохранение автомобиля")
@@ -50,7 +51,7 @@ public class VehicleController {
             )
     })
     @PostMapping
-    public void saveDriver(@Valid VehicleRecord vehicleRecord) {
+    public void saveDriver(@Valid @RequestBody VehicleRecord vehicleRecord) {
         vehicleService.saveVehicle(vehicleRecord);
     }
 
@@ -74,7 +75,7 @@ public class VehicleController {
             )
     })
     @GetMapping("get_all")
-    public ResponseEntity<Collection<VehicleRecord>> getAllVehicle(
+    public ResponseEntity<List<VehicleRecord>> getAllVehicle(
             @Min(value = 1, message = "Количество страниц не должен быть меньше 1")
             @Parameter(description = "Количество страниц",
                     example = "2")

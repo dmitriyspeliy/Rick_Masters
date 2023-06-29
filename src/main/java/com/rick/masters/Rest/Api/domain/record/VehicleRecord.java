@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -42,8 +42,7 @@ public class VehicleRecord extends AbstractRecord implements Serializable {
     String brand;
 
     @NotNull(message = "Не может быть null")
-    @Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}", message = "Год выпуска, например 1993-27-12")
-    DateFormat yearOfManufacture;
+    LocalDate yearOfManufacture;
 
     @JsonIgnore
     Driver driver;

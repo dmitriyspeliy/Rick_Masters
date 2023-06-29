@@ -15,7 +15,6 @@ import javax.persistence.*;
 @MappedSuperclass
 @Getter
 @Setter
-@EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AbstractEntity {
 

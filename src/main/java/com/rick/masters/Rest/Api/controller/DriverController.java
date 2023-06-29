@@ -53,7 +53,7 @@ public class DriverController {
             )
     })
     @PostMapping
-    public void saveDriver(@Valid DriverRecord driverRecord) {
+    public void saveDriver(@Valid @RequestBody DriverRecord driverRecord) {
         driverService.saveDriver(driverRecord);
     }
 

@@ -14,13 +14,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.text.Normalizer;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Сервис для работы с транспортом
@@ -89,10 +87,9 @@ public class VehicleServiceImpl implements VehicleService {
      * @return лист дто автомобилей
      */
     @Override
-    public Collection<VehicleRecord> getAllVehicle(Integer offSet, Integer limit, VehicleSort sortedBy) {
+    public List<VehicleRecord> getAllVehicle(Integer offSet, Integer limit, VehicleSort sortedBy) {
         log.info(FormLogInfo.getInfo("Получаем объект page с параметрами: \n" + "Номер страницы: " + offSet + "\n" + "Количество элементов на странице: " + limit + "\n" + "Сортировка по полю: " + sortedBy.getSortValue()));
-        Pageable pageable = PageRequest.of(offSet, limit, sortedBy.getSortValue());
-        Page<Vehicle> page = vehicleRepository.findVehicleWithSortAndPagination(pageable);
-        return vehicleMapper.toDTOList(page.get().collect(Collectors.toList()));
+        Page<Vehicle> page = vehicleRepository.findAll(PageRequest.of(offSet, limit, sortedBy.getSortValue()));
+        return new ArrayList<>(vehicleMapper.toDTOList(page.toList()));
     }
 }

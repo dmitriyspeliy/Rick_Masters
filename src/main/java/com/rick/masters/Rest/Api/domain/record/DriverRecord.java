@@ -41,7 +41,6 @@ public class DriverRecord extends AbstractRecord implements Serializable {
     String drivingLicenceCategories;
 
     @NotNull(message = "Не может быть null")
-    @Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}", message = "День рождения, например 1993-27-12")
     LocalDate birthdayDate;
 
     @JsonIgnore

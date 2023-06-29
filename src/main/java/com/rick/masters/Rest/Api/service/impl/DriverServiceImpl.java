@@ -60,7 +60,7 @@ public class DriverServiceImpl implements DriverService {
     public Collection<DriverRecord> getAllDrivers(Integer offSet, Integer limit, DriverSort sortedBy) {
         log.info(FormLogInfo.getInfo("Получаем объект page с параметрами: \n" + "Номер страницы: " + offSet + "\n" + "Количество элементов на странице: " + limit + "\n" + "Сортировка по полю: " + sortedBy.getSortValue()));
         Pageable pageable = PageRequest.of(offSet, limit, sortedBy.getSortValue());
-        Page<Driver> page = driverRepository.findDriversWithSortAndPagination(pageable);
+        Page<Driver> page = driverRepository.findAll(pageable);
         return driverMapper.toDTOList(page.get().collect(Collectors.toList()));
     }
 

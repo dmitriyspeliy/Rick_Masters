@@ -46,7 +46,7 @@ public class DetailController {
             )
     })
     @PostMapping
-    public void saveDetail(@Valid DetailRecord detailRecord) {
+    public void saveDetail(@Valid @RequestBody DetailRecord detailRecord) {
         detailService.saveDetail(detailRecord);
     }
 
@@ -67,7 +67,7 @@ public class DetailController {
     })
     @PostMapping("/set_detail_vin")
     public void setDetailToVehicleByVIN(
-            @Valid DetailRecord detailRecord,
+            @Valid @RequestBody DetailRecord detailRecord,
             @Parameter(description = "VIN автомобиля")
             @RequestParam(value = "vin")
             @NotNull(message = "Не может быть null")
@@ -97,7 +97,7 @@ public class DetailController {
             @Parameter(description = "Идентификатор водителя",
                     example = "2")
             Long id,
-            @Valid DetailRecord detailRecord) {
+            @Valid @RequestBody DetailRecord detailRecord) {
         detailService.saveDetailByVehicleId(detailRecord, id);
     }
 

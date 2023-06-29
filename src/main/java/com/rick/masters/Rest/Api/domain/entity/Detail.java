@@ -16,7 +16,6 @@ import javax.persistence.*;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = true)
 public class Detail extends AbstractEntity {
 
     @Column(name = "serial_number")

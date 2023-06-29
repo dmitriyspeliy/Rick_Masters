@@ -16,7 +16,6 @@ import javax.persistence.*;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = true)
 public class Account extends AbstractEntity {
 
     @Column(name = "red_value")
@@ -28,8 +27,8 @@ public class Account extends AbstractEntity {
     @Column(name = "blue_value")
     Long blueValue;
 
-    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_id", referencedColumnName = "id")
     Driver driver;
 
 

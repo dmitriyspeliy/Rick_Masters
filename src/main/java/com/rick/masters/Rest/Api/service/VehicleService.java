@@ -3,7 +3,7 @@ package com.rick.masters.Rest.Api.service;
 import com.rick.masters.Rest.Api.domain.record.VehicleRecord;
 import com.rick.masters.Rest.Api.utils.VehicleSort;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Сервис для автомобиля
@@ -34,5 +34,5 @@ public interface VehicleService {
      * @param sortedBy сортировка по полю
      * @return лист дто автомобилей
      */
-    Collection<VehicleRecord> getAllVehicle(Integer offSet, Integer limit, VehicleSort sortedBy);
+    List<VehicleRecord> getAllVehicle(Integer offSet, Integer limit, VehicleSort sortedBy);
 }

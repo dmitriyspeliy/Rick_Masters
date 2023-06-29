@@ -18,5 +18,4 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
      */
     Optional<Vehicle> findVehicleByVIN(String VIN);
 
-    Page<Vehicle> findVehicleWithSortAndPagination(Pageable pageable);
 }

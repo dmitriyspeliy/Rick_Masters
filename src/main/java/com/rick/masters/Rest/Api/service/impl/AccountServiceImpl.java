@@ -38,6 +38,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void putMoney(String color, Long value, Long driverId) {
 
+        if(value < 0) throw new IllegalArgumentException("Только положительные числа");
+
         Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new ElemNotFound("Нет водителя с айди: " + driverId));
 
@@ -51,6 +53,9 @@ public class AccountServiceImpl implements AccountService {
             log.info(FormLogInfo.getInfo("Создаем аккаунт и кладем деньги на счет"));
             Account newAccount = new Account();
             newAccount.setDriver(driver);
+            newAccount.setBlueValue(0L);
+            newAccount.setRedValue(0L);
+            newAccount.setGreenValue(0L);
             selectorForMoneyPlus(newAccount, color, value);
             accountRepository.save(newAccount);
         }
@@ -66,6 +71,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void writeOff(String color, Long value, Long driverId) {
 
+        if(value < 0) throw new IllegalArgumentException("Только положительные числа");
+
         Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new ElemNotFound("Нет водителя с айди: " + driverId));
 
@@ -75,12 +82,6 @@ public class AccountServiceImpl implements AccountService {
             log.info(FormLogInfo.getInfo("Снимаем деньги со счета"));
             selectorForMoneyMinus(account, color, value);
             accountRepository.save(account);
-        } else {
-            log.info(FormLogInfo.getInfo("Создаем аккаунт и снимаем деньги со счета"));
-            Account newAccount = new Account();
-            newAccount.setDriver(driver);
-            selectorForMoneyMinus(newAccount, color, value);
-            accountRepository.save(newAccount);
         }
     }
 
@@ -106,17 +107,17 @@ public class AccountServiceImpl implements AccountService {
     private void selectorForMoneyPlus(Account newAccount, String color, Long value) {
 
         switch (color) {
-            case "красный":
+            case "Красный":
                 newAccount.setRedValue(newAccount.getRedValue() + value);
                 newAccount.setGreenValue((long) (newAccount.getGreenValue() + (value * 2.5)));
                 newAccount.setBlueValue((long) (newAccount.getBlueValue() + (value * 1.5)));
                 break;
-            case "зеленый":
+            case "Зеленый":
                 newAccount.setGreenValue((newAccount.getGreenValue() + value));
                 newAccount.setRedValue((long) (newAccount.getRedValue() + (value / 2.5)));
                 newAccount.setBlueValue((long) (newAccount.getBlueValue() + (value * 0.6)));
                 break;
-            case "голубой":
+            case "Голубой":
                 newAccount.setBlueValue(newAccount.getBlueValue() + value);
                 newAccount.setRedValue((long) (newAccount.getRedValue() + (value / 1.5)));
                 newAccount.setGreenValue((long) (newAccount.getGreenValue() + (value * 1.6)));
@@ -132,7 +133,7 @@ public class AccountServiceImpl implements AccountService {
         long blueValue;
 
         switch (color) {
-            case "красный":
+            case "Красный":
                 redValue = newAccount.getRedValue() - value;
                 greenValue = (long) (newAccount.getGreenValue() - (value * 2.5));
                 blueValue = (long) (newAccount.getBlueValue() - (value * 1.5));
@@ -146,7 +147,7 @@ public class AccountServiceImpl implements AccountService {
                 newAccount.setGreenValue(greenValue);
                 newAccount.setBlueValue(blueValue);
                 break;
-            case "зеленый":
+            case "Зеленый":
                 redValue = (long) (newAccount.getRedValue() + (value / 2.5));
                 greenValue = newAccount.getGreenValue() + value;
                 blueValue = (long) (newAccount.getBlueValue() + (value * 0.6));
@@ -160,7 +161,7 @@ public class AccountServiceImpl implements AccountService {
                 newAccount.setGreenValue(greenValue);
                 newAccount.setBlueValue(blueValue);
                 break;
-            case "голубой":
+            case "Голубой":
                 redValue = (long) (newAccount.getRedValue() + (value / 1.5));
                 greenValue = (long) (newAccount.getGreenValue() + (value * 1.6));
                 blueValue = newAccount.getBlueValue() + value;

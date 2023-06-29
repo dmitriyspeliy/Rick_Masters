@@ -1,5 +1,6 @@
 package com.rick.masters.Rest.Api.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -18,7 +20,6 @@ import java.util.Set;
 @Getter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = true)
 public class Vehicle extends AbstractEntity {
 
     @Column(name = "VIN")
@@ -34,7 +35,8 @@ public class Vehicle extends AbstractEntity {
     String brand;
 
     @Column(name = "year_of_manufacture")
-    DateFormat yearOfManufacture;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    LocalDate yearOfManufacture;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")

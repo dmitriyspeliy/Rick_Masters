@@ -4,7 +4,6 @@ import com.rick.masters.Rest.Api.domain.entity.Detail;
 import com.rick.masters.Rest.Api.domain.entity.Vehicle;
 import com.rick.masters.Rest.Api.domain.record.DetailRecord;
 import com.rick.masters.Rest.Api.exception.ElemNotFound;
-import com.rick.masters.Rest.Api.exception.ExistElement;
 import com.rick.masters.Rest.Api.loger.FormLogInfo;
 import com.rick.masters.Rest.Api.mapper.DetailMapper;
 import com.rick.masters.Rest.Api.repository.DetailRepository;
@@ -13,6 +12,8 @@ import com.rick.masters.Rest.Api.service.DetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 /**
@@ -40,15 +41,15 @@ public class DetailServiceImpl implements DetailService {
     @Override
     public void saveDetail(DetailRecord detailRecord) {
 
-        detailRepository.findDetailBySerialNumber(detailRecord.getSerialNumber())
-                .orElseThrow(() ->
-                        new ExistElement("Деталь с номером " + detailRecord.getSerialNumber() + " уже есть в базе"));
+        Optional<Detail> check = detailRepository.findDetailBySerialNumber(detailRecord.getSerialNumber());
 
-        log.info(FormLogInfo.getInfo("Сохраняем новый автомобиль"));
+        if (check.isEmpty()) {
+            log.info(FormLogInfo.getInfo("Сохраняем новую деталь"));
 
-        Detail detail = detailMapper.toEntity(detailRecord);
+            Detail detail = detailMapper.toEntity(detailRecord);
 
-        detailRepository.save(detail);
+            detailRepository.save(detail);
+        }
 
     }
 
@@ -61,16 +62,21 @@ public class DetailServiceImpl implements DetailService {
     @Override
     public void saveDetailByVIN(DetailRecord detailRecord, String VIN) {
 
-        Detail detail = detailMapper.toEntity(detailRecord);
+        Optional<Detail> check = detailRepository.findDetailBySerialNumber(detailRecord.getSerialNumber());
 
-        Vehicle vehicle = vehicleRepository.findVehicleByVIN(VIN)
-                .orElseThrow(() -> new ElemNotFound("Нет машины с VIN : " + VIN));
+        if (check.isPresent()) {
+            Detail detail = detailMapper.toEntity(detailRecord);
 
-        log.info(FormLogInfo.getInfo("Устанавливаем деталь в автомобиль"));
+            Vehicle vehicle = vehicleRepository.findVehicleByVIN(VIN)
+                    .orElseThrow(() -> new ElemNotFound("Нет машины с VIN : " + VIN));
 
-        detail.setVehicle(vehicle);
+            log.info(FormLogInfo.getInfo("Устанавливаем деталь в автомобиль"));
 
-        detailRepository.save(detail);
+            detail.setVehicle(vehicle);
+            detail.setId(check.get().getId());
+
+            detailRepository.save(detail);
+        }
 
     }
 
@@ -83,15 +89,21 @@ public class DetailServiceImpl implements DetailService {
     @Override
     public void saveDetailByVehicleId(DetailRecord detailRecord, Long vehicleId) {
 
-        Detail detail = detailMapper.toEntity(detailRecord);
+        Optional<Detail> check = detailRepository.findDetailBySerialNumber(detailRecord.getSerialNumber());
 
-        Vehicle vehicle = vehicleRepository.findById(vehicleId)
-                .orElseThrow(() -> new ElemNotFound("Нет машины с Id : " + vehicleId));
+        if (check.isPresent()) {
+            Detail detail = detailMapper.toEntity(detailRecord);
 
-        log.info(FormLogInfo.getInfo("Устанавливаем деталь в автомобиль"));
+            Vehicle vehicle = vehicleRepository.findById(vehicleId)
+                    .orElseThrow(() -> new ElemNotFound("Нет машины с Id : " + vehicleId));
 
-        detail.setVehicle(vehicle);
-        detailRepository.save(detail);
+            log.info(FormLogInfo.getInfo("Устанавливаем деталь в автомобиль"));
+
+            detail.setVehicle(vehicle);
+            detail.setId(check.get().getId());
+            detailRepository.save(detail);
+        }
+
     }
 
     /**
@@ -111,11 +123,11 @@ public class DetailServiceImpl implements DetailService {
 
         log.info(FormLogInfo.getInfo("Замена детали в машине"));
 
-        Vehicle vehicle = detailOld.getVehicle();
+        detailNew.setVehicle(detailOld.getVehicle());
+        detailOld.setVehicle(null);
 
-        vehicle.getDetails().remove(detailOld);
-        vehicle.getDetails().add(detailNew);
+        detailRepository.save(detailNew);
+        detailRepository.save(detailOld);
 
-        vehicleRepository.save(vehicle);
     }
 }
